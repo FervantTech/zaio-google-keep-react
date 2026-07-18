@@ -78,3 +78,36 @@
   color: var(--text);
   font-size: 1.1rem;
 }
+
+@media (max-width: 600px) {
+  .form-container {
+    width: auto;
+    max-width: none;
+    margin: 16px 12px;
+  }
+
+  .inactive-form .form-actions .tooltip:nth-child(2) {
+    display: none;
+  }
+
+  .form .form-actions {
+    align-items: center;
+    gap: 4px;
+  }
+
+  .form .form-actions .icons {
+    min-width: 0;
+    overflow-x: auto;
+  }
+
+  .note-title,
+  .note-text {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .color-palette {
+    max-width: calc(100vw - 24px);
+    overflow-x: auto;
+  }
+}

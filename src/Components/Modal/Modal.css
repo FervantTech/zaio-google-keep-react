@@ -25,3 +25,28 @@
 .open-modal {
   visibility: visible;
 }
+
+@media (max-width: 600px) {
+  .modal {
+    padding: 12px;
+  }
+
+  .modal .modal-content {
+    top: 50%;
+    width: 100%;
+  }
+
+  .modal .form-container {
+    margin: 0;
+  }
+
+  .modal .form-actions {
+    align-items: center;
+    gap: 4px;
+  }
+
+  .modal .icons {
+    min-width: 0;
+    overflow-x: auto;
+  }
+}

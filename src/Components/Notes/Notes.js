@@ -36,6 +36,7 @@ function Notes({
 
   return (
     <div className="notes">
+      {/* Sort pinned notes to the top without changing the stored note order. */}
       {[...notes]
         .sort((a, b) => Number(b.pinned) - Number(a.pinned))
         .map((note) => (

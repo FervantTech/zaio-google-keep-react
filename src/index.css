@@ -45,6 +45,10 @@ body {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+button,
+input {
+  min-width: 0;
+}
 
 .material-symbols-outlined {
   padding: 10px;
@@ -79,4 +83,18 @@ body {
 
 .tooltip:hover .tooltip-text {
   visibility: visible;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding-bottom: 72px;
+  }
+
+  .material-symbols-outlined {
+    padding: 8px;
+  }
+
+  .tooltip-text {
+    display: none;
+  }
 }

@@ -6,7 +6,7 @@ import Notes from "./Components/Notes/Notes";
 import Modal from "./Components/Modal/Modal";
 
 const App = () => {
-  // Restore the saved theme, falling back to the user's system preference.
+  // AI-assisted feature: restore the saved theme or use the system preference.
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
 
@@ -73,13 +73,13 @@ const selectedNote = notes.find(
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
 
-  // Apply and persist the theme whenever the user changes it.
+  // Persist the selected theme whenever the user changes it.
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-
+  // Manual feature: toggle a note's pinned state so pinned notes appear first.
   const togglePin = (id) => {
   setNotes((previousNotes) =>
     previousNotes.map((note) =>
@@ -93,7 +93,7 @@ const selectedNote = notes.find(
   );
 };
 
-  // Save a custom background color on the selected note.
+  // AI-assisted feature: save a custom background color on the selected note.
   const changeNoteColor = (id, color) => {
     setNotes((previousNotes) =>
       previousNotes.map((note) =>
@@ -104,7 +104,6 @@ const selectedNote = notes.find(
 
   return (
     <div className="App">
-      {/* Keep the theme toggle at the app level so it affects every component. */}
       <Navbar
         theme={theme}
         toggleTheme={() =>

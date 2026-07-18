@@ -1,7 +1,7 @@
 nav {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 24px;
   height: 64px;
 
   border-bottom: 1px solid var(--border);
@@ -10,15 +10,16 @@ nav {
   color: var(--text-muted);
 }
 .middle-nav {
-  width: 82%;
+  flex: 1;
+  min-width: 0;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-left: 100px;
+  gap: 16px;
 }
 .logo-area {
   display: flex;
   align-items: center;
+  flex: 0 0 136px;
 }
 .logo-text {
   font-size: 1.4rem;
@@ -28,7 +29,9 @@ nav {
 
 .search-area {
   background: var(--surface-muted);
-  width: 713px;
+  width: min(713px, 100%);
+  flex: 1;
+  min-width: 0;
   height: 48px;
 
   border-radius: 8px;
@@ -52,9 +55,16 @@ input:focus {
 .search-area span {
   margin-left: 10px;
 }
+
+.settings-area{
+  display: flex;
+  flex-direction: row;
+  flex: 0 0 auto;
+}
 .profile-actions-area {
   display: flex;
   flex-direction: row;
+  flex: 0 0 auto;
 }
 
 /* Navbar control for switching between light and dark themes. */
@@ -72,4 +82,60 @@ input:focus {
 .theme-toggle:focus-visible {
   outline: 2px solid #8ab4f8;
   outline-offset: 2px;
+}
+
+@media (max-width: 1000px) {
+  nav {
+    gap: 12px;
+  }
+
+  .logo-area {
+    flex-basis: auto;
+  }
+
+  .middle-nav {
+    gap: 8px;
+  }
+
+  .settings-area .tooltip:nth-child(2),
+  .settings-area .tooltip:nth-child(3),
+  .profile-actions-area .tooltip:not(:first-child) {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  nav {
+    height: 60px;
+    gap: 6px;
+    margin: 0;
+    padding: 6px 8px;
+  }
+
+  .logo-area img,
+  .logo-text,
+  .settings-area,
+  .profile-actions-area > .tooltip:not(:first-child) {
+    display: none;
+  }
+
+  .middle-nav {
+    flex: 1;
+    width: auto;
+    margin-left: 0;
+  }
+
+  .search-area {
+    width: 100%;
+    height: 44px;
+  }
+
+  .search-area input {
+    width: 100%;
+    margin-left: 2px;
+  }
+
+  .search-area span {
+    margin-left: 2px;
+  }
 }
