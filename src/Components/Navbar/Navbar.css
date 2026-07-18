@@ -4,10 +4,10 @@ nav {
   align-items: center;
   height: 64px;
 
-  border-bottom: 1px solid #dadce0;
+  border-bottom: 1px solid var(--border);
   padding: 8px;
   margin: 0 10px;
-  color: #5f6368;
+  color: var(--text-muted);
 }
 .middle-nav {
   width: 82%;
@@ -22,12 +22,12 @@ nav {
 }
 .logo-text {
   font-size: 1.4rem;
-  color: black;
+  color: var(--text);
   font-weight: 400;
 }
 
 .search-area {
-  background: #f0f4f9;
+  background: var(--surface-muted);
   width: 713px;
   height: 48px;
 
@@ -38,7 +38,8 @@ nav {
 
 .search-area input {
   border: none;
-  background: #f0f4f9;
+  background: transparent;
+  color: var(--text);
   width: 90%;
   height: 95%;
   font-size: 1rem;
@@ -54,4 +55,21 @@ input:focus {
 .profile-actions-area {
   display: flex;
   flex-direction: row;
+}
+
+/* Navbar control for switching between light and dark themes. */
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid #8ab4f8;
+  outline-offset: 2px;
 }

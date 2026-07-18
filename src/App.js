@@ -6,6 +6,17 @@ import Notes from "./Components/Notes/Notes";
 import Modal from "./Components/Modal/Modal";
 
 const App = () => {
+  // Restore the saved theme, falling back to the user's system preference.
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme) return savedTheme;
+
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  });
+
   const [notes, setNotes] = useState(() => {
     const savedNotes = localStorage.getItem("notes");
     return savedNotes ? JSON.parse(savedNotes) : [];
@@ -22,7 +33,7 @@ const selectedNote = notes.find(
   (note) => note.id === selectedNoteId
 );
 
-  const addNote = (title, text) => {
+  const addNote = (title, text, color) => {
     if (!title.trim() && !text.trim()) {
   return;
 }
@@ -32,6 +43,7 @@ const selectedNote = notes.find(
       title: title,
       text: text,
       pinned: false,
+      color,
     };
 
     setNotes([...notes, newNote]);
@@ -61,6 +73,12 @@ const selectedNote = notes.find(
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
 
+  // Apply and persist the theme whenever the user changes it.
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
 
   const togglePin = (id) => {
   setNotes((previousNotes) =>
@@ -74,16 +92,41 @@ const selectedNote = notes.find(
     ),
   );
 };
+
+  // Save a custom background color on the selected note.
+  const changeNoteColor = (id, color) => {
+    setNotes((previousNotes) =>
+      previousNotes.map((note) =>
+        note.id === id ? { ...note, color } : note,
+      ),
+    );
+  };
+
   return (
     <div className="App">
-      <Navbar />
+      {/* Keep the theme toggle at the app level so it affects every component. */}
+      <Navbar
+        theme={theme}
+        toggleTheme={() =>
+          setTheme((currentTheme) =>
+            currentTheme === "light" ? "dark" : "light",
+          )
+        }
+      />
       <Sidebar />
       <Form addNote={addNote} />
-      <Notes notes={notes} deleteNote={deleteNote} selectNote={selectNote} togglePin={togglePin} />
+      <Notes
+        notes={notes}
+        deleteNote={deleteNote}
+        selectNote={selectNote}
+        togglePin={togglePin}
+        changeNoteColor={changeNoteColor}
+      />
       {isModalOpen && selectedNote && (
         <Modal
           note={selectedNote}
           editNote={editNote}
+          changeNoteColor={changeNoteColor}
           closeModal={() => {
             setIsModalOpen(false);
             setSelectedNoteId(null);

@@ -2,7 +2,7 @@ import React from 'react'
 import "./Navbar.css"
 import "../../index.css"
 
-function Navbar() {
+function Navbar({ theme, toggleTheme }) {
   return (
     <nav>
       <div className="logo-area">
@@ -50,6 +50,22 @@ function Navbar() {
       </div>
  
       <div className="profile-actions-area">
+        {/* Dark-mode control shows the mode that will be activated. */}
+        <div className="tooltip">
+          <button
+            className="theme-toggle hover"
+            type="button"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          >
+            <span className="material-symbols-outlined">
+              {theme === "dark" ? "light_mode" : "dark_mode"}
+            </span>
+          </button>
+          <span className="tooltip-text">
+            {theme === "dark" ? "Light mode" : "Dark mode"}
+          </span>
+        </div>
         <div className="tooltip">
           <span className="material-symbols-outlined hover">apps</span>
           <span className="tooltip-text">Apps</span>

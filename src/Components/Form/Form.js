@@ -1,19 +1,37 @@
 import React, { useState } from "react";
 import "./Form.css";
 
+// Preset colors available while creating a note.
+const NOTE_COLORS = [
+  { name: "Default", value: "" },
+  { name: "Coral", value: "#f28b82" },
+  { name: "Peach", value: "#fbbc04" },
+  { name: "Sand", value: "#fff475" },
+  { name: "Mint", value: "#ccff90" },
+  { name: "Sage", value: "#a7ffeb" },
+  { name: "Blue", value: "#aecbfa" },
+  { name: "Lavender", value: "#d7aefb" },
+];
+
 function Form({ addNote }) {
   const [expanded, setExpanded] = useState(false);
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
+  const [color, setColor] = useState("");
+  const [isPaletteOpen, setIsPaletteOpen] = useState(false);
+  // Every provided color is light, so dark text gives the clearest preview.
+  const noteTextColor = color ? "#202124" : undefined;
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    addNote(title, text);
+    addNote(title, text, color);
 
     setExpanded(false);
     setTitle("");
     setText("");
+    setColor("");
+    setIsPaletteOpen(false);
   };
 
   return (
@@ -50,7 +68,12 @@ function Form({ addNote }) {
       )}
 
       {expanded && (
-        <div className="form-container active-form " onSubmit={handleSubmit}>
+        // Preview the selected background before the note is saved.
+        <div
+          className="form-container active-form"
+          onSubmit={handleSubmit}
+          style={{ backgroundColor: color || undefined }}
+        >
           <form className="form" id="form">
             <input
               id="note-title"
@@ -59,6 +82,7 @@ function Form({ addNote }) {
               placeholder="Title"
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+              style={{ color: noteTextColor }}
             />
             <input
               id="note-text"
@@ -67,6 +91,7 @@ function Form({ addNote }) {
               placeholder="Take a note..."
               value={text}
               onChange={(event) => setText(event.target.value)}
+              style={{ color: noteTextColor }}
             />
             <div className="form-actions">
               <div className="icons">
@@ -76,11 +101,42 @@ function Form({ addNote }) {
                   </span>
                   <span className="tooltip-text">Remind me</span>
                 </div>
-                <div className="tooltip">
+                {/* Choose a preset background for the new note. */}
+                <div className="tooltip color-picker">
                   <span className="material-symbols-outlined hover small-icon">
                     palette
                   </span>
                   <span className="tooltip-text">Change Color</span>
+                  <button
+                    type="button"
+                    className="palette-trigger"
+                    aria-label="Choose note background color"
+                    aria-expanded={isPaletteOpen}
+                    onClick={() => setIsPaletteOpen((isOpen) => !isOpen)}
+                  />
+                  {isPaletteOpen && (
+                    <div className="color-palette" aria-label="Note colors">
+                      {NOTE_COLORS.map((noteColor) => (
+                        <button
+                          type="button"
+                          key={noteColor.name}
+                          className={`color-swatch ${
+                            color === noteColor.value ? "selected" : ""
+                          }`}
+                          style={{
+                            backgroundColor:
+                              noteColor.value || "var(--surface)",
+                          }}
+                          aria-label={noteColor.name}
+                          title={noteColor.name}
+                          onClick={() => {
+                            setColor(noteColor.value);
+                            setIsPaletteOpen(false);
+                          }}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <div className="tooltip">
                   <span className="material-symbols-outlined hover small-icon">
